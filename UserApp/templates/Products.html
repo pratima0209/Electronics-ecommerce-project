@@ -1,0 +1,109 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {%block "title"%}
+  <title>Mini store.in : {{prod.category_name}}</title>
+  {%endblock%}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- OWN CSS -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+
+<style>
+body{
+    background-color: white;
+}
+i.starred{
+    color: gold;
+}
+</style>
+
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header>
+    <nav class="navbar navbar-expand-lg navigation-wrap navbar-light ">
+      <section class="nav-item"> <img class="navbar-brand" 
+        src="{%static 'images/logo.png'%}" height="50px" width="40px" alt="logo"></section>
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/yourAccount">Your Account </a>
+        </li>
+        <li class="nav-item ">
+          {%if "uname" in request.session%}
+     
+          <form class="form-inline my-2 my-lg-0" action="/search">
+            <input name="q" autocomplete="" class="form-control mr-sm-2 " type="search" 
+            placeholder="Hello, {{request.session.uname}}">
+            <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          {%else%}
+          
+          <form class="form-inline my-2 my-lg-0" action="/search">
+            <input name="q"  class="form-control mr-sm-2 " type="search" placeholder="Search Mini store.in">
+            <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          {%endif%}
+        </li>
+        </ul>
+    
+        <!-- ICONS -->
+        <ul class="navbar navbar-nav navbar-right">
+            {%if "uname" in request.session%}
+      <li class="nav-item">
+      <a href="/showCart_Item" class="nav-link"><i class="fa-solid fa-cart-shopping"></i>Cart ({{cart}})</a>
+      </li>
+      <li class="nav-item">
+        <a href="/SignOut" class="nav-link "><i class="fa-solid fa-power-off"></i> Sign out</a>
+      </li>
+      {%else%}
+      <li class="nav-item">
+        <!-- LOGIN -->
+        <a class="nav-link" style="color: #9a9999;cursor: pointer;" href="/masterLogin"> <i class="fa-solid fa-user"></i> Sign in</a>
+      </li>
+      {%endif%}
+    </ul>
+</nav>
+</header>
+
+
+{%block "txt"%}
+<div class="container-fluid row">
+    <div class="col-sm-12">
+        <table class="table">
+
+          <!-- FETCHING PRODUCTS FROM CATEGORY -->
+            {%for products in electronics%}
+            <tr ><td><a target="_blank" href="/getGadjets/{{products.id}}">
+                <img src="{{products.image.url}}" height="300px" width="320px" alt="Loading..."></td></a>
+                <td><a target="_blank" href="/getGadjets/{{products.id}}"><b>{{products.item_name}}</b><br>
+                  <i class="fa-solid fa-star starred"></i>
+                  <i class="fa-solid fa-star starred"></i>
+                  <i class="fa-solid fa-star starred"></i>
+                  <i class="fa-solid fa-star starred"></i>
+                  <i class="fa-regular fa-star-half-stroke starred"></i><br><br>
+                  {{products.details}}<br><br><b> ₹{{products.price}}</b></a>
+              </td>
+            </tr>
+            {%endfor%}
+            </table>
+            </div>
+        </div>
+{%endblock%}
+
+</body>
+</html>
+       

@@ -1,0 +1,46 @@
+{%extends "showCart_Item.html"%}
+{%load static%}
+
+{%block "title"%}
+<title>Order cancellation</title>
+{%endblock%}
+
+<!-- FOR ORDER CANCELLATION -->
+{%block "gener"%}
+
+<div class="container">
+    
+    <div class="card card-body">
+        <div>
+        <section style="font-size: large" class="text-danger">
+            <strong><i class="fa-solid fa-xmark"></i>
+                 Request for order cancellation!
+        </section></strong><br>
+
+        <span><strong>Product details:</strong>&nbsp {{order.details}}
+            </span><br><br>
+
+        <span>{{order.qty}} item(s)</span><br><br>
+        
+        <!-- ORDER CANCLE CONFIRMATION -->
+
+        <label for="feedback"><strong>Reason for cancellation(optional):</strong></label>
+        <select 
+            style="box-shadow: 0px 2px 5px black;">
+                <option selected>Select cancellation reason</option>
+                <option>Order created by mistake</option>
+                <option>Found cheaper somewhere else</option>
+                <option>Item Price too high</option>
+                <option>Need to change shipping address</option>
+        </select>
+        
+        <hr><br>
+            <span> <a class="btn btn-warning btn-sm" href="/requestCancelation/{{order.id}}">
+            Request cancellation</a> </span>
+
+        </div>
+        </div>
+        </div>
+ 
+{%endblock%} 
+

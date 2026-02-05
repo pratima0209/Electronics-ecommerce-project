@@ -1,0 +1,297 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{%block "title"%}
+  <title>Mini store.in Shopping Cart</title>
+{%endblock%}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+  <!-- OWN CSS -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+
+<style>
+/* BODY */
+
+body{
+    background-color: white;
+    padding-top: 100px;
+    padding-bottom: 30px;
+   /*  margin-bottom: 40px; */
+    min-height: 100%;
+    /* display: flex;
+    flex-direction: column; */
+    font-weight: 400;
+}
+
+#del:hover{
+    border-color: #fd8eaf;
+    color: whitesmoke !important;
+    background-color: #fd8eaf;
+}
+
+/* NAVIGATION */
+header{
+    position: absolute;
+    top: 0;
+}
+
+#noColor:hover{
+    color: whitesmoke !important;
+}
+
+/* BUTTON */
+
+.btn:hover{
+color: whitesmoke !important;
+background-color: #fd8eaf;
+border-color: #fd8eaf;
+}
+
+.sticky-footer{
+    position: sticky;
+    top: 100%;
+    background-color:lightgrey;
+}
+
+/* SPINNER */
+.spinner-wrapper{
+    background-color: var(--black-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.7s;
+}
+
+.spinner-border{
+    height: 60px;
+    width: 60px;
+}
+</style>
+
+
+</head>
+<body>
+
+<!-- SPINNER -->
+<div class="spinner-wrapper">
+    <div class="spinner-border" style="color: #fd8eaf;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const spinnerWrapperEl = document.querySelector('.spinner-wrapper');
+
+    window.addEventListener('load',()=>{
+        spinnerWrapperEl.style.opacity = 0;
+
+        setTimeout(()=>{
+            spinnerWrapperEl.style.display = 'none';
+        },1000);
+    });
+
+
+</script>
+
+<!-- TOP BAR -->
+<header>
+<nav class="navbar navbar-expand-lg navigation-wrap navbar-light ">
+    <section class="nav-item"> <img class="navbar-brand" 
+        src="{%static 'images/logo.png'%}" height="50px" width="40px" alt="logo"></section>
+    <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+        <a class="nav-link" href="/">Home </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/yourAccount">Your Account </a>
+    </li>
+    <li class="nav-item ">
+        {%if "uname" in request.session%}
+     
+        <form class="form-inline my-2 my-lg-0" action="/search">
+          <input name="q" autocomplete="" class="form-control mr-sm-2 " type="search" 
+          placeholder="Hello, {{request.session.uname}}">
+          <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        {%else%}
+        
+        <form class="form-inline my-2 my-lg-0" action="/search">
+          <input name="q"  class="form-control mr-sm-2 " type="search" placeholder="Search Mini store.in">
+          <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        {%endif%}
+    </li>
+    </ul>
+
+    <!-- ICONS -->
+    <ul class="navbar navbar-nav navbar-right">
+    {%if "uname" in request.session%}
+    <li class="nav-item">
+        <a href="/showCart_Item" class="nav-link text-right">
+          <i class="fa-solid fa-cart-shopping"></i>Cart ({{cart}})</a>
+    </li>
+    <li class="nav-item">
+        <a href="/SignOut" class="nav-link "><i class="fa-solid fa-power-off"></i> Sign out</a>
+    </li>
+    {%else%}
+
+    <!-- LOGIN -->
+    <li class="nav-item">
+        <a class="nav-link" style="color: #9a9999;cursor: pointer;" href="/masterLogin"><i class="fa-solid fa-user"></i> Sign in</a>
+    </li>
+    {%endif%}
+    </ul>
+</nav>
+</header>
+
+
+{%block "gener"%}
+
+<!-- CAART TABLE -->
+<div class="container">
+    <div class="container-fluid">
+
+        <table class="table" style="box-shadow: 0px 2px 5px black;background: white;">
+            <h4>Shopping Cart</h4>
+            
+
+            <!-- IF CART IS EMPTY -->
+
+            {%if items|length == 0%}
+            <h1>Your Mini cart is empty.</h1>
+            <a href="/" id="del" class="btn btn-warning">Shop Now</a><br>
+
+            {%else%}
+
+            <!-- IF CART IS NOT EMPTY -->
+
+            <tr><th>Product image</th><th class="text-center">Product Details</th><th>Price</th><th>SubTotal</th></tr>
+            {%for item in items%}
+            <tr><td>
+                
+                <form method="post" name="PostName">
+                    {%csrf_token%}
+
+                    <!-- HIDDEN ID-->
+                    <input type="hidden" value="{{item.id}}" name="cart_id" id="">
+                        
+                    <!-- PRODUCT IMAGE -->
+                    <img src="{{item.electronics.image.url}}" height="150px" 
+                    width="150px" alt="Loading..."></td>
+                    
+                    <!-- PRODUCT DETAILS -->
+                    <td><b>{{item.electronics.item_name}}</b>
+                        <h6 style="color: green;">In Stock</h6>
+
+                        <!-- BOX LABLE -->
+                        <label for="qty"><strong>Qty:</strong></label>
+
+                        <!-- QTY SELECTION -->
+                        <select id="Qty{{item.electronics.id}}" 
+                        style="width:50px ;box-shadow: 0px 2px 5px black;"
+                            name="qty" onchange="this.form.submit()">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                         
+                        <!-- jQuery CODE FOR QTY SETTED -->
+                        <script type="text/javascript">
+                            $(document).ready(
+                                function()
+                                {
+                                    document.getElementById('Qty{{item.electronics.id}}').value = "{{item.qty}}"
+                                }
+                            )
+                        </script>
+                </form>
+
+                <!-- PARTICULAR PRODUCT DELETION CODE -->
+
+                &nbsp;&nbsp;|&nbsp; <a href="/deleteCart_item/{{item.id}}"
+                 style="color: #fd8eaf;">Remove</a>&nbsp;| 
+                   
+                <!-- MODAL FOR CONFIRMATION 
+                    data-toggle="modal" data-target="#confirmation"
+                <div class="modal fade" id="confirmation" tabindex="-1" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Remove Cart Item</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        Are you sure you want to remove this item from cart?
+                        </div>
+                         <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <a href="/deleteCart_item/{{item.id}}" id="noColor" class="btn btn-warning">Yes</a>
+                        </div> 
+                    </div>
+                    </div>
+                </div>  -->
+                </td>
+            
+            <!-- PRODUCT PRICE -->
+            <td><b> ₹{{item.electronics.price}}</b></td>
+            <td><b>₹{%widthratio item.electronics.price 1 item.qty%}.0</b></td></tr>
+
+            {%endfor%}
+            
+            <!-- GRAND TOTAL FOR SINGLE ITEM-->
+            {%if request.session.quant == 1%}
+
+            <tr><td>
+                <a href="/makePayment" class="btn btn-warning">Proceed to Buy</a></td>
+                <td colspan="3" class="text-right">
+                    <h3><strong>
+                        Grand Total ({{request.session.quant}} item):&nbsp; 
+                        ₹{{request.session.total}}</strong>
+                    </h3>
+                </td>
+            </tr>
+            
+            <!-- GRAND TOTAL FOR MORE THAN ONE ITEM -->
+            {%else%}
+            <tr>
+                <td>
+                <a href="/makePayment" class="btn btn-warning">Proceed to Buy</a></td>
+                <td colspan="3" class="text-right">
+                    <h3><strong>
+                        Grand Total ({{request.session.quant}} items):&nbsp; 
+                        ₹{{request.session.total}}</strong>
+                    </h3>
+                </td>
+            </tr>
+            {%endif%}
+
+            {%endif%}
+        </table>
+    </div>
+</div>
+
+{%endblock%}
+
+
+</body>
+</html>
+

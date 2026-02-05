@@ -1,0 +1,96 @@
+{%extends "showCart_Item.html"%}
+{%load static%}
+
+{%block "title"%}
+<title>Mini store.in Contact Us</title>
+{%endblock%}
+
+
+{%block "gener"%}
+
+<style>
+    .verticle-line{
+        border-left:1px solid lightpink;
+        height: 550px;
+        position: absolute;
+        left: 2%;
+        top: 0;
+    }
+
+    .about{
+        margin-left: 2%;
+    }
+    .about{
+        border-bottom: 2px solid deeppink;
+        width: fit-content;
+    }
+
+    .details{
+        text-align: justify;
+        text-justify: inter-word;
+        font-size: small;
+        margin-left: 30px;
+        margin-top: 15px;
+    }
+</style>
+
+<!-- FOR RECIEVING CUSTOMER COMPLAINTS -->
+<form action="" method="post">
+    {%csrf_token%}
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p style="font-size: small;color: deeppink;" class="text-center">Please fill up the form given below to connect with us.
+                        It will be routed to person best able to provide you assistance. Our Mini store
+                        executive will contact you shortly.
+                    </p>
+                    <div class="form-group wrapps">
+                        <input class="form-control" type="text"  name="subject" required
+                        placeholder="Problem you are facing">
+                    </div>
+                    <div class="form-group wrapps">
+                        <input class="form-control" type="email" name="email" required
+                        placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <textarea style="resize: none;" class="form-control" rows="5" cols="50" name="message" required
+                        placeholder="Message"></textarea>
+                    </div>
+                    <button style="margin-left: 65%;width:180px;" type="submit" class="btn btn-warning">Submit</button>
+                </div>
+
+                <!-- ABOUT US SECTION -->
+                <div class="col-sm-6">
+                    <div class="verticle-line"></div>
+                    <div class="about">
+                        <h3>About us</h3>
+                    </div>
+                    <div>
+                        <p class="details">Welcome to Mini e-store, where we believe that shopping for high-quality products should be easy, 
+                        fun, and accessible to everyone. Our company has started serving to the customers in the current
+                        year, founded by Devesh More who shared a passion for bringing innovative, sustainable, and affordable products to customers around the world..</p>
+
+                        <p class="details">Our mission is simple: to provide our customers with the best possible 
+                        shopping experience, from the moment they land on our website to the moment 
+                        they receive their order. What sets us apart from other ecommerce
+                        sites is our dedication to customer satisfaction. We understand that
+                        shopping online can be daunting, which is why we strive to make the 
+                        process as seamless and enjoyable as possible.</p>
+
+                        <p class="details">Our friendly and knowledgeable customer support team is available 
+                        24/7 to answer any questions, provide product recommendations, or 
+                        assist with returns and exchanges.</p>
+
+                        <p class="details">Thank you for considering Mini e-store for your  
+                            purchase. We look forward to serving you soon!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</form>
+
+{%endblock%} 
+

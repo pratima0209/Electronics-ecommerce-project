@@ -1,0 +1,203 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%block "title"%}
+  <title>Mini store Sign In</title>
+  {%endblock%}
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- OWN CSS -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+
+
+<!-- CSS -->
+{%block "style"%}
+<style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body{
+  height: 100vh;
+  /* display:flex;
+  flex-direction: column; */
+  margin-left: 35%;
+  align-items: center;
+  justify-content: center;
+  background:#ffffff;
+}
+
+.login{
+  width: 360px;
+  height: min-content;
+  padding: 20px;
+  border-radius: 12px;
+  background-color:white;
+}
+
+footer{
+  background-color: whitesmoke;
+}
+
+.login h3{
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+
+.login form{
+  font-size: 20px;
+}
+
+.login form .form-group{
+  margin-bottom: 12px;
+}
+
+.login form button[type='submit']{
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.btn:hover{
+  color: whitesmoke;
+  background-color: #fd8eaf;
+  border-color: #fd8eaf;
+}
+
+.heading{
+  margin-right: 10%;
+}
+
+.alert{
+  overflow: hidden;
+}
+
+</style>
+{%endblock%}
+
+<!-- SPINNER -->
+<div class="spinner-wrapper">
+  <div class="spinner-border" style="color: #fd8eaf;" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<!-- JAVASCRIPT FOR SPINNER -->
+<script type="text/javascript">
+  const spinnerWrapperEl = document.querySelector('.spinner-wrapper');
+
+  window.addEventListener('load',()=>{
+      spinnerWrapperEl.style.opacity = 0;
+
+      setTimeout(()=>{
+          spinnerWrapperEl.style.display = 'none';
+      },1000);
+  });
+
+</script>
+
+</head>
+<body>
+  
+{%block "login"%}
+
+<!-- LOGIN FORM -->
+
+<div class="heading">
+  <h3 class="text-center"><a href="/" style="color: palevioletred;margin-right: 54%;"> <img src="{%static 'images/logo.png'%}" height="50px" width="50px"
+    alt="logo">&nbsp;Sign in</a></h3>
+  </div>
+  <form method="post" class="needs-validation" action="/masterLogin">
+    {%csrf_token%}
+  <div class="login card card-body">
+
+  <!-- {%if message == "Your Account was created, Sign in to your account"%}
+    <section style="color:forestgreen; margin-bottom: 5px;" class="text-center notice" role="alert"><strong>{{message}}</strong></section>
+  {%else%} -->
+
+  <!-- ALERT MESSAGE FOR USER -->
+  {%for message in messages%}
+  {%if message.tags == "danger"%}
+  <div class="alert alert-{{ message.tags }} alert-dismissible 
+  fade show" role="alert">
+    <strong>There was a problem: </strong> {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {%else%}
+  <div class="alert alert-{{ message.tags }} alert-dismissible 
+  fade show" role="alert">
+    <strong>Hello: </strong> {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {%endif%}
+  {%endfor%}
+
+  {%endif%}
+
+    <div class="form-group was-validated">
+      <label  for="email">Enter email</label>
+      <input class="form-control" type="email" minlength="6" autofocus name="email" required
+      placeholder="Your registered email here" id="email">
+    </div>
+
+
+    <!-- <div class="form-group was-validated">
+      <label for="password">Enter password</label>
+      <input class="form-control" type="password" name="password" required
+      placeholder="At least 6 characters" minlength="6" id="password">
+    </div> -->
+
+    <button type="submit" class="btn btn-warning w-100">Request OTP</button>
+
+  </form>
+
+  <form action="/masterSignUp">
+    <div>
+      <br>
+      <span style="font-size: medium;"> ---------------- New to Mini store? ----------------- <br>
+    <button style="font-size:medium;"  type="submit" class="btn btn-warning w-100">Create your Account</button> </span>   
+  </div>  
+  </form>
+</div> 
+
+<!-- FOOTER MESSAGE -->
+<footer class="container-fluid text-center fixed-bottom">
+<div class="container">
+  <p class="text-left text-muted para">Copyright &copy;2023 reserved by: <strong>Mini store.in</strong>
+    <span style="margin-left: 40%;"> Follow us</span>
+      <span>
+      <i class="fa-brands fa-facebook"></i>
+      <i class="fa-brands fa-twitter"></i>
+      <i class="fa-brands fa-instagram"></i>
+      <i class="fa-brands fa-linkedin"></i>
+    </span>
+  </p>
+</div>
+</footer>
+{%endblock%}
+
+
+</body>
+</html>
+
+
+

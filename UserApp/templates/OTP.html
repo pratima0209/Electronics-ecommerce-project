@@ -1,0 +1,254 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%block "title"%}
+  <title>Validation of OTP</title>
+  {%endblock%}
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- OWN CSS -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+
+
+<!-- CSS -->
+{%block "style"%}
+<style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+body{
+  height: 100vh;
+  /* display:flex;
+  flex-direction: column; */
+  margin-left: 35%;
+  align-items: center;
+  justify-content: center;
+  background:#ffffff;
+}
+
+.login{
+  width: 360px;
+  height: min-content;
+  padding: 20px;
+  border-radius: 12px;
+  background-color:white;
+}
+
+.login h3{
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+
+#len{
+    color: red;
+}
+
+.login form{
+  font-size: 20px;
+}
+
+.login form .form-group{
+  margin-bottom: 12px;
+}
+
+.login form button[type='submit']{
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.btn:hover{
+  color: whitesmoke;
+  background-color: #fd8eaf;
+  border-color: #fd8eaf;
+}
+
+/* #len{
+    display: none;
+} */
+
+.heading{
+  margin-right: 10%;
+}
+
+.alert{
+  overflow: hidden;
+}
+
+</style>
+{%endblock%}
+
+<!-- SPINNER -->
+<div class="spinner-wrapper">
+  <div class="spinner-border" style="color: #fd8eaf;" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<!-- JAVASCRIPT FOR SPINNER -->
+<script type="text/javascript">
+  const spinnerWrapperEl = document.querySelector('.spinner-wrapper');
+
+  window.addEventListener('load',()=>{
+      spinnerWrapperEl.style.opacity = 0;
+
+      setTimeout(()=>{
+          spinnerWrapperEl.style.display = 'none';
+      },1000);
+  });
+
+</script>
+
+</head>
+<body>
+  
+{%block "login"%}
+
+<!-- LOGIN FORM -->
+
+<div class="heading">
+  <h3 class="text-center"><a href="/" style="color: palevioletred;margin-right: 54%;"> <img src="{%static 'images/logo.png'%}" height="50px" width="50px"
+    alt="logo">&nbsp;Sign in</a></h3>
+  </div>
+  <form method="post" onsubmit="validate()" class="needs-validation" action="/Otp">
+    {%csrf_token%}
+  <div class="login card card-body">
+
+ <!-- ALERT MESSAGE FOR USER -->
+ {%for message in messages%}
+ {%if message.tags == "danger"%}
+ <div class="alert alert-{{ message.tags }} alert-dismissible 
+ fade show" role="alert">
+   <strong>There was a problem: </strong> {{message}}
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ {%else%}
+ <div class="alert alert-{{ message.tags }} alert-dismissible 
+ fade show" role="alert">
+   <strong>Hello: </strong> {{message}}
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ {%endif%}
+ {%endfor%}
+
+    <div class="form-group">
+      <label class="text-center" for="uname">Please enter the OTP sent to <strong> {{user.email}}</strong>.</label>
+      <input class="form-control my-3" type="number"  autofocus name="otp" required
+      placeholder="6 digit one time password (OTP)" id="otp">
+      <div id="len"></div>
+    </div>
+
+    <!-- <div class="form-group was-validated">
+      <label for="password">Enter Password</label>
+      <input class="form-control pass" type="password" name="password" required
+      placeholder="At least 6 characters" minlength="6" id="password">
+    </div>
+
+    <div class="form-group">
+      <label for="con_password">Confirm Password</label>
+      <input class="form-control conpass" type="password" name="con_password" required
+      placeholder="Re-type above password" minlength="6" id="con_password">
+      <input type="checkbox" onclick="myFunction()" id="shopass"> Show Password
+
+      <div class="feedback" style="color:red;"> </div> -->
+
+    <button type="submit" class="btn btn-warning w-100">Verify</button>
+
+    <div class="otp my-3 text-center">Not recieved your code?<a href="/Resend">Resend code</a></div>
+
+  </form>
+</div> 
+
+<!-- JAVASCRIPT FOR NUMBER OTP LENGTH -->
+<script type="text/javascript">
+    function validate(){
+        var otp = document.getElementById('otp').value.toString();
+        var len = document.getElementById('len');
+        if (otp.length < "6"){
+            len.innerHTML = "Please enter 6 digit OTP"
+            event.preventDefault()
+        }
+        if(otp.length > "6"){
+            len.innerHTML = "OTP cannot have more than 6 digits"
+            event.preventDefault()
+        }
+    }
+</script>
+
+<!-- JAVASCRIPT FOR PASSWORD VALIDATION -->
+<!-- <script type="text/javascript">
+  function validateMyForm(){
+
+    var pass = document.querySelector('.pass').value;
+    var conpass = document.querySelector('.conpass').value;
+    if (pass != conpass) {
+      document.querySelector('.feedback').innerHTML = "Password not matched"
+      event.preventDefault()      
+    } 
+  } 
+</script> -->
+
+<!-- JAVASCRIPT FOR PASSWORD SHOWING -->
+<!-- <script>
+  function myFunction() {
+    var x = document.getElementById("con_password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+  </script> -->
+
+
+{%endblock%}
+
+<!-- FOOTER -->
+<div class="container-fluid">
+  <footer 
+  class="text-center fixed-bottom" 
+  style="background-color:whitesmoke;height:70px; padding-bottom: 20px;">
+  <div class="container">
+    <p class="text-left text-muted para">Copyright &copy;2023 reserved by: <strong>Mini store.in</strong>
+      <span style="margin-left: 40%;"> Follow us
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-linkedin"></i>
+      </span>
+    </p>
+  </div>
+  </footer>
+  </div>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,117 @@
+{%extends "showCart_Item.html"%}
+{%load static%}
+
+{%block "title"%}
+<title>Your Orders</title>
+{%endblock%}
+
+{%block "gener"%}
+
+<style>
+    .fix{
+        margin-left: 5%;
+    }
+    .fixed1{
+        margin-left: 17%;
+    }
+    .fixed2{
+        margin-left: 17%;
+    }
+    .fixed3{
+        margin-left: 17%;
+    }
+    .fiction{
+        margin-bottom: 3%;
+    }
+
+</style>
+
+<!-- ORDER DETAILS -->
+<div class="container">
+    <div class="">
+        <h2>Your Orders</h2>
+    </div>
+    <!-- IF NO ORDER -->
+    {%if items|length == 0%}
+            <h1>Your have not orderd anything yet. <i class="fa-regular fa-face-frown"></i></h1>
+            <a href="/" id="del" class="btn btn-warning">Shop Now</a><br>
+    {%else%}
+        
+        <!-- FETCHING ORDERS -->
+        {%for item in items%}
+        <div class="card fiction">
+            <div class="card-header" style="box-shadow: 0px 0px 1px 1px black;">
+                <ul class="nav nav-pills card-header-pills">
+                    {%if item.orderStatus == "This order was canceled"%}
+                    <li class="nav-item fix">
+                        <span><strong> Order was Placed <br>{{item.date}}</strong></span>
+                    </li>
+
+                    <li class="nav-item fixed1">
+                        <span><strong> Total <br>₹{{item.amount}}</strong></span>
+                    </li>
+                    <li class="nav-item fixed2">
+                        <span><strong> Ship To <br> 
+                            {{item.user.user_name}}</strong></span>
+                    </li>
+                    <li class="nav-item fixed3">
+                        <span> <strong> Order id: #{{item.order_id}}</strong></span>
+                    </li>
+                    {%else%}
+                    <li class="nav-item fix">
+                        <span><strong> Order Placed <br>{{item.date}}</strong></span>
+                    </li>
+                    <li class="nav-item fixed1">
+                        <span><strong> Total <br>₹{{item.amount}}</strong></span>
+                    </li>
+                    <li class="nav-item fixed2">
+                        <span style="cursor: pointer;"><strong> Ship To <br> 
+                            <span id="popover" onmouseover="event()" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{info.address}} {{info.zip_code}}">
+                                {{item.user.user_name}}</strong>
+                            </span>
+                        </span>
+                    </li>
+                    <li class="nav-item fixed3">
+                        <span> <strong> Order id: #{{item.order_id}}</strong></span>
+                    </li>
+                    {%endif%}
+                    </ul>   
+                    
+                    <!-- jQuerry FOR ADDRESS POPOVER -->
+                    <script type="text/javascript">
+                        $(document).ready(function event(){
+                            $('#popover').popover({trigger:'hover'})
+                        });
+                    </script>
+            </div>
+                    
+            <div class="card-body" style="box-shadow: 0px 0px 1px 1px black;">
+                <!-- CHECKING FOR ORDER CANCELLATION -->
+                {%if item.orderStatus == "This order was canceled"%}
+                <section style="color: red;"><strong>Order status:</strong> {{item.orderStatus}}</section>
+                    <br>
+                    <!-- <img src="{{image.url}}" height="50px" width="50px" alt="Loading..."> -->
+                    {{item.details}}
+                    <br><br>
+                    {{item.qty}} item(s)
+                    
+                {%else%}
+                <section style="color: green;"><strong>Order status:</strong> {{item.orderStatus}}</section>
+
+                Delivery expected on: <strong> {{item.arrival}}</strong>
+                    <br><br>
+                    <!-- <img src="{{image.url}}" height="50px" width="50px" alt="Loading..."> -->
+                    {{item.details}}
+                    <br><br>
+                    {{item.qty}} item(s)
+                    <span style="margin-left: 3%;">
+                        <a class="btn btn-warning btn-sm" href="/cancleOrder/{{item.id}}">Cancle order</a>
+                    </span>
+                {%endif%}
+            </div>
+        </div>        
+        {%endfor%}
+    {%endif%}
+{%endblock%}
+</body>
+</html>

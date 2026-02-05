@@ -1,0 +1,33 @@
+{%extends "showCart_Item.html"%}
+{%load static%}
+
+{%block "title"%}
+<title>Order Confirmation</title>
+{%endblock%}
+
+
+{%block "gener"%}
+
+<!-- CODE FOR ORDER PLACED -->
+<div class="container">
+
+    {%for item in info%} 
+
+    <div class="card card-body">
+        <div>
+        <section style="font-size: large" class="text-success">
+            <strong><i class="fa-solid fa-circle-check"></i>
+                 Your Order was placed, thank you!
+        </section></strong><br><br>
+        <span><strong>Shipping to {{request.session.uname}}, </strong>{{item.address}} {{item.zip_code}}
+        <br><br> Phone number: {{item.mobile_no}}</span>
+        <hr><br>
+            <span> <a href="/orderDetails">Review your recent orders</a> </span>
+
+        </div>
+        </div>
+        </div>
+
+        {%endfor%}     
+{%endblock%} 
+

@@ -1,0 +1,166 @@
+{%extends "masterLogin.html"%}
+{%load static%}
+
+{%block "title"%}
+<title>Mini store.in Checkout</title>
+{%endblock%}
+
+
+{%block "style"%}
+<!-- CSS -->
+<style>
+.navbar-center{
+    left: 30%;
+} 
+.navbar-right{
+    left: 60%;
+}
+
+.adjust{
+    box-shadow: 0px 0px 5px black;
+    margin-top: 2%;
+    position: relative;
+}
+h3{
+    color: black;
+    font-size: large;
+}
+
+.setup{
+    margin-top: 3%;
+}
+
+.form-control{
+    width: 16%;
+}
+.btn-block{
+    color: black;
+}
+</style>
+{%endblock%}
+
+{%block "login"%}
+<!-- TOP BAR -->
+<header>
+  <div class="container adjust">
+      <nav class="navbar navbar-expand-lg navigation-wrap navbar-light ">
+          <a href="/" class="nav-item"> <h3><img class="navbar-brand" 
+              src="{%static 'images/logo.png'%}" height="50px" width="40px" alt="logo">
+          </h3></a>
+          <!-- CHECKOUT PAGE -->
+          <ul class="navbar navbar-nav navbar-center">
+              <li class="nav-item">
+                  <h2><strong>Checkout</strong></h2>
+              </li>
+          </ul>
+          <!-- LOCK ICON -->
+          <ul class="navbar navbar-nav navbar-right">
+          <li class="nav-item">
+              <h2 style="color: #9e9999;"><i class="fa-solid fa-lock"></i></h2>
+              
+          </li>
+          </ul>
+      </div>
+      </nav>
+  </div>
+</header>
+
+<!-- RECIVING CARD DETAILS ON SERVER SIDE -->
+<form method="post">
+    {%csrf_token%}
+<div class="canatiner setup">
+  <div class="container">
+    <div class="payment">
+        <section> <strong> Payments are accepted with Debit/Credit/ATM cards only, Kindly enter your card details </strong></section>
+
+        <br><div class="card card-body">
+          <nobr> <span>
+             <strong> Name on Card:</strong>&nbsp;
+          </span><span>{{request.session.uname}}</span></nobr>
+        </div><br>
+
+        <!-- Alert message for incorrect card details -->
+
+        {%for message in messages%}
+        {%if message.tags == "danger"%}
+          <div class="alert alert-{{ message.tags }} alert-dismissible 
+          fade show" role="alert">
+            <strong>There was a problem: </strong> {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {%endif%}  
+        {%endfor%}
+        
+    </div>
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                  <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Enter your card number
+                  </button>
+                </h2>
+              </div>
+          
+              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                  <input type="text" class="form-control" placeholder="card number" autofocus minlength="16" maxlength="16" name="card_no" required id="">
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                  <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Click here to enter your cvv number
+                  </button>
+                </h2>
+              </div>
+              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <input type="text" class="form-control" placeholder="cvv number" maxlength="3" minlength="3" name="cvv_no" required id="">
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                  <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Click here to enter your card expiry date
+                  </button>
+                </h2>
+              </div>
+              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <input type="text" class="form-control" placeholder="expiry date"  name="expiry_date" required id="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="card card-body">
+            <nobr><button style="width: fit-content;"  type="submit" class="btn btn-warning">Place your order</button>
+            &nbsp;&nbsp; <span style="color: crimson;font-size: larger;"><strong> Order Total: ₹{{request.session.total}}</strong>
+            <section style="font-size: small;margin-left: 15%;">We assured you that your payments 
+              are processed securely and your personal data is protected</section></span></nobr>
+        </div>
+    </div>
+  </div>
+</form>
+
+<!-- <footer class="text-white sticky-footer container-fluid">
+  <div class="container">
+    <p class="text-left text-muted para">Copyright &copy;2023 reserved by: <strong>Mini store.in</strong>
+      <span style="margin-left: 40%;"> Follow us
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-linkedin"></i>
+      </span>
+    </p>
+  </div>
+</footer> -->
+
+{%endblock%}

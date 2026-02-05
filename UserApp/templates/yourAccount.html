@@ -1,0 +1,85 @@
+{%extends "showCart_Item.html"%}
+{%load static%}
+
+
+{%block "title"%}
+<title>Your Account</title>
+{%endblock%}
+
+
+
+
+{%block "gener"%}
+
+<!-- CUSTOMER ACCOUNT -->
+
+<div class="container">
+
+<!-- ALERT MESSAGE FOR USER -->
+{%for message in messages%}
+{%if message.tags == "danger"%}
+<div class="alert alert-{{ message.tags }} alert-dismissible 
+fade show" role="alert">
+  <strong>There was a problem: </strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{%else%}
+<div class="alert alert-{{ message.tags }} alert-dismissible 
+fade show" role="alert">
+  <strong>Hello: </strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{%endif%}
+{%endfor%}
+
+<!-- ACCOUNT > ORDERED DETAILS -->
+
+    <div>
+        <h2>Your Account</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-body" style="box-shadow: 1px 1px 1px black;">
+                <a class="stretched-link" href="/orderDetails" style="color: black; cursor: pointer;">
+                <i class="fa-solid fa-box-archive"></i>
+                <strong> Your Orders</strong> <p style="font-size: small;">All orders details</p></a>
+            </div>
+        </div>
+
+        <!-- ACCOUNT > EMAIL ID UPDATION -->
+        <div class="col-md-4">
+            <div class="card card-body" style="box-shadow: 1px 1px 1px black;">
+                <a class="stretched-link" href="/login" style="color: black; cursor: pointer;">
+                    <i class="fa-solid fa-lock"></i><strong>  Login and Security</strong>
+                    <p style="font-size: small;"> Update Email id </p></a>
+            </div>
+        </div>
+
+
+        <!-- ACCOUNT > ADDRESS UPDATION -->
+        <div class="col-md-4">
+            <div class="card card-body" style="box-shadow: 1px 1px 1px black;">
+                <a class="stretched-link" href="/address" style="color: black; cursor: pointer;">
+                    <i class="fa-solid fa-location-dot"></i><strong>  Your Address</strong>
+                    <p style="font-size: small;">Update Address and phone number</p></a>
+            </div>
+        </div>
+        <br>
+
+         <!-- ACCOUNT > CONTACT US -->
+         <div style="margin-top: 3%;"  class="col-md-4">
+            <div class="card card-body" style="box-shadow: 1px 1px 1px black;">
+                <a class="stretched-link" href="/contactUs" style="color: black; cursor: pointer;">
+                    <i class="fa-solid fa-headset"></i> <strong> Contact us</strong>
+                    <p style="font-size: small;">Reach to us</p></a>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+{%endblock%}

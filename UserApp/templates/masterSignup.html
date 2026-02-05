@@ -1,0 +1,125 @@
+{%extends "masterLogin.html"%}
+{%load static%}
+
+{%block "title"%}
+  <title>Mini store Registration</title>
+{%endblock%}
+
+{%block "style"%}
+<style>
+.container{
+  margin-top: 0.8%;
+}
+</style>
+{%endblock%}
+
+{%block "login"%}  
+
+
+  <!-- SIGN UP FORM -->
+  <form method="post" class="needs-validation" action="/masterSignUp">
+    {%csrf_token%}
+  <div class="container fixed-top  card card-body">
+  <div class="heading text-center">
+    <h3 ><a href="/" style="color: palevioletred;">
+       <img src="{%static 'images/logo.png'%}" height="50px" width="50px"
+      alt="logo">&nbsp;Create Account</a></h3>
+    </div>
+    <div class="login">
+        
+      <!-- ALERT MESSAGE FOR USER -->
+      {%for message in messages%}
+        {%if message.tags == 'danger'%}
+            <div class="alert alert-{{ message.tags }} alert-dismissible 
+            fade show" role="alert">
+              <strong>Sorry: </strong> {{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        {%else%}
+        <div class="alert alert-{{ message.tags }} alert-dismissible 
+            fade show" role="alert">
+              <strong>Hi: </strong> {{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {%endif%}
+      {%endfor%}
+
+      <!-- USER ENTRY FIELDS -->
+
+      <div class="form-group">
+        <label  for="uname">Enter your name</label>
+        <input class="form-control" type="text" minlength="6" name="uname" required
+        placeholder="First and Last name" id="uname">
+      </div>
+
+      <div class="form-group">
+        <label  for="uname">Enter email</label>
+        <input class="form-control" type="email" minlength="6" autofocus name="email" required
+        placeholder="Enter active and correct email-id for otp" id="email">
+      </div>
+
+      <div class="form-group was-validated">
+        <label  for="Mobile">Enter your mobile number</label>
+        <input class="form-control" type="text" minlength="10" maxlength="10"  name="Mobile" required
+        placeholder="+91" id="Mobile">
+      </div>
+
+      <div class="form-group">
+        <label  for="Address">Enter your shipping address</label>
+        <input class="form-control" type="text" minlength="20" name="address" required
+        placeholder="Eg. house/flat no, address" id="Mobile">
+      </div>
+
+      <div class="form-group">
+        <label for="Zip code">Zip postal code</label>
+        <input class="form-control conpass" type="text" name="zip_code" required
+        placeholder="Area-code, State" minlength="6" id="zip code">
+
+        <!-- <input type="checkbox" onclick="myFunction()" id="shopass">Show Password
+
+        <div class="feedback" style="color:red;"> </div> -->
+      </div>
+
+
+      <button type="submit" class="btn btn-warning w-100">Create Account</button>
+
+      <div class="link text-right" style="margin-top: 15px;">
+        Already have an account?&nbsp;<a href="/masterLogin">Sign in</a>
+      </div>
+    </div>
+  </div>
+ </form>
+
+
+
+<!-- JAVASCRIPT FOR PASSWORD VALIDATION -->
+<!-- <script type="text/javascript">
+  function validateMyForm(){
+
+    var pass = document.querySelector('.pass').value;
+    var conpass = document.querySelector('.conpass').value;
+    if (pass != conpass) {
+      document.querySelector('.feedback').innerHTML = "Password not matched"
+      event.preventDefault()      
+    } 
+  } 
+</script> -->
+
+<!-- JAVASCRIPT FOR PASSWORD SHOWING -->
+<!-- <script>
+  function myFunction() {
+    var x = document.getElementById("con_password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+  </script> -->
+
+
+{%endblock%}

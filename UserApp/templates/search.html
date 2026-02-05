@@ -1,0 +1,34 @@
+{%extends "Products.html"%}
+{%load static%}
+
+{%block "title"%}
+<title>Search results</title>
+{%endblock%}
+
+{%block "txt"%}
+
+<!-- CODE FOR SEARCHED RESULTS -->
+<div class="container-fluid row">
+    <div class="col-sm-12">
+        <h3 class="my-4 pb-1"><span class="text-muted"> Search result for </span> {{request.GET.q}}</h3>
+        <table class="table">
+            <!-- FETCHING PARTICULAR SEARCHED PRODUCTS -->
+            {%for products in electronics%}
+            <tr ><td><a target="_blank" href="/getGadjets/{{products.id}}">
+                <img src="{{products.image.url}}" height="300px" width="320px" alt="Loading..."></td></a>
+                <td><a target="_blank" href="/getGadjets/{{products.id}}"><b>{{products.item_name}}</b><br>
+                    <i class="fa-solid fa-star starred"></i>
+                    <i class="fa-solid fa-star starred"></i>
+                    <i class="fa-solid fa-star starred"></i>
+                    <i class="fa-regular fa-star-half-stroke starred"></i>
+                    <i class="fa-regular fa-star starred"></i><br><br>
+                    {{products.details}}<br><br><b> ₹{{products.price}}</b></a>
+                </td>
+            </tr>
+            {%empty%}
+            <span class="text-center mt-4 ml-4">No Results Found</span>
+            {%endfor%}
+            </table>
+            </div>
+        </div>
+{%endblock%}

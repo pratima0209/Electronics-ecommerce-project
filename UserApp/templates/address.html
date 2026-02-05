@@ -1,0 +1,49 @@
+{%extends "showCart_Item.html"%}
+{%load static%}
+
+{%block "title"%}
+<title>Your Address</title>
+{%endblock%}
+
+
+{%block "gener"%}
+
+<!-- current address view -->
+    <div class="container">
+        <h2>Your Address</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-body" style="box-shadow: 1px 1px 1px black;">
+                    <section><strong> Name:</strong> {{items.user_name}}</section><br>
+                    
+                    <section><strong> Address:</strong> {{items.address}} {{items.zip_code}}, India.</section><br>
+                    <section><strong> Phone number: </strong> {{items.mobile_no}}</section>
+                    
+                </div>
+            </div>
+        </div>
+    </div><br>
+    
+    <!-- form with updated data -->
+    <form action="/address" method="post">
+        {%csrf_token%}
+        <div class="container">
+            <h3>Change your current address here</h3>
+        <div class="card card-body" style="box-shadow: 1px 1px 3px black;">
+            <label for="Address"><strong> Change your address:</strong></label>
+            <input type="text" class="form-control" name="address"  autofocus required placeholder="Make required changes in your address" id="">
+             <br>
+            <label for="zip_code"><strong> Change your zip code:</strong></label>
+            <input type="text" class="form-control" name="zip_code" required placeholder="Area-code, State" id="">
+             <br>
+            <label for="Phone number"><strong> Change your phone number:</strong></label>
+            <input type="text" class="form-control" name="mob_no" required placeholder="Give your working number so we can reach you on time" id="">
+            <br>
+            <button type="submit" class="btn btn-warning">Save</button>
+        </div>
+    </div>
+    </form>
+
+
+{%endblock%} 
+

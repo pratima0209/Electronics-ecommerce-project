@@ -1,0 +1,223 @@
+{%extends "showCart_Item.html"%}
+{%load static%}
+
+{%block "title"%}
+<title>{{electronics.item_name}}</title>
+{%endblock%}
+
+
+{%block "gener"%}
+
+
+<!-- CSS code for image viewer -->
+<style>
+img{
+  width: 100%;
+  display: block;
+}
+
+.img-container{
+  width: 550px;
+  height: 550px;
+  margin: 0 auto;
+}
+
+.hover-container{
+  display: flex;
+  margin-top: 5px;
+}
+
+.hover-container div{
+  border: 2px solid rgba(252, 160, 175, 0.7);
+  padding: 1rem;
+  border-radius: 3px;
+  margin: 0 4px 8px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active{
+  border-color: rgba(255, 145, 163) !important;
+  box-shadow: 0 0 3px 3px #fd8eaf;
+}
+
+.hover-container div:hover{
+  border-color: rgba(255, 145, 163) !important; 
+}
+
+.hover-container div img{
+  width: 50px;
+  cursor: pointer;
+}
+
+.product-description b{
+  color: black;
+}
+
+
+</style>
+
+<!-- PAGE RELOADER CODE  -->
+<script type="text/javascript">
+  window.addEventListener( "pageshow", function ( event ) {
+    var historyTraversal = event.persisted || 
+      ( typeof window.performance != "undefined" && 
+          window.performance.navigation.type === 2 );
+    if ( historyTraversal ) {
+      // Handle page restore.
+      window.location.reload();
+    }
+  });
+</script>
+
+<!-- HEADING -->
+<h3 style="font-family: Georgia,
+ 'Times New Roman', Times, serif;" align="center">Product Review</h3>
+
+
+<!-- METHOD FOR CART -->
+<form method="post" action="/addToCart">
+    {%csrf_token%}
+
+<!-- IMAGE TABLE -->
+<div class="container-fluid row">
+  <div class="col-sm-6">
+    <table class="table">
+      <tr>
+        <td>
+      <div class="img-container">
+        <img src="{{electronics.image.url}}" alt="..loading">
+      </div>
+      </div></td></tr>
+      </table>
+      </div>
+
+      <!-- PRODUCT DETAILS -->
+      <div class="col-sm-6">
+          <table class="table">
+            <!-- ITEM NAME -->
+              <tr><td><b>{{electronics.item_name}}</b>
+                <!-- HIDDEN ID -->
+              <input type="hidden" name="eid" value="{{electronics.id}}"></td></tr>
+              
+              <!-- ITEM PRICE -->
+              <!-- CHECKING FOR OFFER PRODUCT -->
+              {%if electronics.id == 55%}
+              <tr><td><span style="color:red;"><strong> Offer is live &nbsp;
+              </span>
+
+              <div><h4 style="color:red"> -12% <span style="color: black;">₹89,759</span> </h4></a>
+                
+                <span>M.R.P. : <s>₹1,01,999</s> </span> &nbsp;&nbsp;
+
+              <!-- empty span tag for showing timer -->
+              <span id="timer" class="text-danger"></span></strong>
+              </div>
+                <h6 style="font-family: Georgia, 'Times New Roman', Times, serif;">Inclusive of all taxes</h6></td></tr>
+              </tr>
+
+              <!-- javascript for timer -->
+
+              <script type="text/javascript">
+                // Set the date we're counting down to
+                  var countDownDate = new Date("Mar 31, 2023 15:37:25").getTime();
+
+                  // Update the count down every 1 second
+                  var x = setInterval(function() {
+
+                    // Get today's date and time
+                    var now = new Date().getTime();
+
+                    // Find the distance between now and the count down date
+                    var distance = countDownDate - now;
+
+                    // Time calculations for days, hours, minutes and seconds
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    // Display the result in the element with id="Timer"
+                    document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
+                    // If the count down is finished
+                    if (distance < 0) {
+                      clearInterval(x);
+                      document.getElementById("timer").innerHTML = "OFFER ENDED";
+                    }
+                  }, 1000);
+              </script>
+
+
+              {%else%}
+              <tr><td><section style="color:crimson;font-family: Haettenschweiler, 'Arial Narrow Bold', sans-serif;"><b> Deal of the day</b></section>
+                 <b> ₹{{electronics.price}}</b><h6 style="font-family: Georgia, 'Times New Roman', Times, serif;">Inclusive of all taxes</h6></td></tr>
+              </tr>
+              <tr>
+                {%endif%}
+                <td>
+                  <h5><b>Product Images:</b></h5>
+                   <!-- alternate images -->
+                  <div class="hover-container">
+                    <div class="">
+                      <img src="{{electronics.image.url}}" alt="..loading">
+                    </div>
+                    <div class="">
+                      <img src="{{electronics.image1.url}}" alt="..loading">
+                    </div>
+                    <div class="">
+                      <img src="{{electronics.image2.url}}" alt="..loading">
+                    </div>
+                    <!-- end -->
+                </td>
+              </tr>
+                  <tr>
+                      <td><h5><b>About this item:</b></h5>
+                      {{electronics.description}}</td>
+                  </tr>
+                    {%if itemIn_Cart.electronics.item_name == electronics.item_name and "uname" in request.session%}
+                      <tr><td><a href="/showCart_Item" class="btn btn-warning "><i class="fa-solid fa-cart-shopping"></i> Go To Cart</a>
+                    {%else%}
+                    <tr><td><button class="btn btn-warning " type="submit"><i class="fa-solid fa-cart-shopping"></i> Add To Cart</button>
+                    {%endif%}
+                  </td></tr>
+          </table>
+     </div>
+</div>
+
+
+
+
+    
+    
+<!-- javascript for changing image -->
+
+<script type="text/javascript">
+  const allHoverImages = document.querySelectorAll('.hover-container div img');
+  const imgContainer = document.querySelector('.img-container');
+
+  window.addEventListener('DOMContentLoaded', () => {
+    allHoverImages[0].parentElement.classList.add('active');
+  });
+
+  allHoverImages.forEach((image) => {
+    image.addEventListener('mouseover', () =>{
+      imgContainer.querySelector('img').src = image.src;
+      resetActiveImg()
+      image.parentElement.classList.add('active');
+    });
+  });
+
+function resetActiveImg(){
+  allHoverImages.forEach((img) => {
+    img.parentElement.classList.remove('active')
+  });
+}
+</script>
+    
+</form>
+
+
+{%endblock%}
