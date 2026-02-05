@@ -1,0 +1,257 @@
+@import url('https:/fonts.googleapis.com/css2?fontfamily=Ubuntu:wght@300;400;500;700&display=swap');
+
+/* Basic CSS Structure */
+
+*,
+*:after,
+*:before{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:active,
+:hover,
+:focus{
+    outline: 0  !important;
+    outline-offset: 0;
+}
+
+a,
+a:hover{
+    text-decoration: none;
+}
+
+a{
+    color: #fd8eaf;
+}
+
+a:hover{
+    color:deeppink !important;
+}
+
+ul,
+ol{
+    margin: 0;
+    padding: 0;
+}
+
+   
+/* Remove the jumbotron's default bottom margin */ 
+.jumbotron {
+    margin-bottom: 40px;
+    font-family:sans-serif;
+    height: 200px;
+    background-color:var(--black-color);
+}
+
+/* Remove the card's default bottom margin */ 
+#category{
+    margin-bottom: 40px;
+}
+
+
+/* Card design */
+#center{
+    margin-left: 30%;
+}
+
+   
+.card-wrapper{
+    position: relative;
+    box-shadow: 0px 2px 5px black;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+   
+#des{
+    margin-bottom: 20px;
+   
+}
+
+   
+.card-wrapper:hover{
+    transform: translateY(-15px);
+}
+
+  
+/* Customizing footer */
+
+.para{
+    padding-top: 20px;
+    padding-bottom: 20px ;
+    /* margin-top: 25px; */
+}
+
+.fa-brands{
+    margin-left: 20px;
+}
+
+/* navbar brand */
+.navigation-wrap .navbar-brand img{
+    height: 2.8125rem;
+}
+
+.navbar-toggler{
+    color: var(--black-color);
+}
+
+
+.navigation-wrap{
+    text-align: center;
+    background-color:var(--white-color);
+}
+
+
+/* Variable Define */
+
+:root{
+    --primary-color: #fd8eaf;
+    --white-color: #fff;
+    --text-color: #9e9999;
+    --black-color: #000;
+}
+
+html{
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body{
+    font-family: 'Ubuntu',sans-serif;
+    /* font-size: 100%; */
+    font-weight: 400;
+    padding-top: 80px;
+    background-color:white;
+    /* padding-bottom: 10px; */
+} 
+
+.content{
+    flex: 1 0 auto;
+}
+
+/* Custom Scrollbar */
+
+::-webkit-scrollbar{
+    width: 0.635rem;
+}
+
+::-webkit-scrollbar-track{
+    background: Var(--white-color);
+}
+
+::-webkit-scrollbar-thumb{
+    background: var(--primary-color);
+}
+
+
+/* Custom Css Design */
+
+h1{
+    /* font-size: 4.25rem; */
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+
+h3{
+    color:deeppink;
+    text-transform: capitalize;
+    font-size: 1.25rem;
+    font-weight: 900;
+    margin-bottom: 0.9375rem;
+    transition: all .3s linear;
+}
+
+
+h5{
+    color: var(--black-color);
+    text-transform: capitalize;
+    font-family: var(--primary-color);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+p{
+    font-size: 1.125rem;
+    color: var(--text-color);
+    font-weight: 400;
+    line-height: 1.75rem;
+    letter-spacing: 0.0625rem;
+}
+
+
+/* .nonselect{
+    -webkit-touch-callout: none;
+      -webkit-user-select: none;
+        -khtml-user-select:none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+} */
+
+
+.wrapper{
+    padding-top: 6.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.nav-link:hover,
+.nav-link.active{
+    color: var(--primary-color) !important;
+}
+
+
+
+.navbar .nav-item{
+    margin-left: 45px;
+}
+
+.card-wrapper .card-title:hover{
+    color: var(--primary-color) !important;
+}
+
+i:hover{
+    color: var(--primary-color);
+}
+
+
+header{
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+/* Button */
+.btn:hover{
+    border-color: #fd8eaf;
+    color: whitesmoke;
+    background-color: #fd8eaf;
+} 
+  
+/* Spinner */
+.spinner-wrapper{
+    background-color: var(--black-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.7s;
+}
+
+.spinner-border{
+    height: 60px;
+    width: 60px;
+}
+
